@@ -73,14 +73,14 @@ pipeline {
                 sh "rm -rf /Volumes/media/secretapp-webtest/*"
 		sh "rm -f features/*"
                 sh "make stop-record gather-features"
-                junit 'app/build/**/TEST-*.xml'
-                junit 'app/build/spoon/**/junit-reports/*.xml'
-                archiveArtifacts allowEmptyArchive: true, artifacts: 'app/build/spoon/debug/**'
-                archiveArtifacts allowEmptyArchive: true, artifacts: 'app/build/reports/**'
-                archiveArtifacts allowEmptyArchive: true, artifacts: 'app/build_*/reports/**'
-                cucumber 'features/*cucumber*.json'
-                sh "make publish-tests"
-                sh "cp -rf ../builds/\$(ls -t ../builds/|head -1)/cucumber-html-reports /Volumes/media/secretapp-webtest/||echo 'Cannot find it'"
+//                junit 'app/build/**/TEST-*.xml'
+//                junit 'app/build/spoon/**/junit-reports/*.xml'
+//                archiveArtifacts allowEmptyArchive: true, artifacts: 'app/build/spoon/debug/**'
+//                archiveArtifacts allowEmptyArchive: true, artifacts: 'app/build/reports/**'
+//                archiveArtifacts allowEmptyArchive: true, artifacts: 'app/build_*/reports/**'
+//                cucumber 'features/*cucumber*.json'
+//                sh "make publish-tests"
+//                sh "cp -rf ../builds/\$(ls -t ../builds/|head -1)/cucumber-html-reports /Volumes/media/secretapp-webtest/||echo 'Cannot find it'"
                 slack "See webtest results at http://80.7.204.98/secretapp-results/"
             }
             step([$class: 'CukedoctorPublisher', featuresDir: 'archive/features', format: 'HTML', hideFeaturesSection: false, hideScenarioKeyword: false, hideStepTime: false, hideSummary: false, hideTags: false, numbered: true, sectAnchors: true, title: 'Living Documentation', toc: 'RIGHT'])
