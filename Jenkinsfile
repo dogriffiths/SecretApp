@@ -58,6 +58,7 @@ pipeline {
                         ansiColor('xterm') {
                             sh 'make build-app-release'
                             sh 'cp version.properties /Users/davidg/keystores/SecretApp/'
+                            sh 'cp -r fastlane /Users/davidg/keystores/SecretApp/'
                             sh 'fastlane alpha'
                         }
                         gitCommit = releaseNotes(BUILD_NUMBER)
