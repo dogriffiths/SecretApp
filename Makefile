@@ -1,5 +1,6 @@
 GRADLE = ./gradlew --no-daemon
 
+# Ignore these
 .PHONY: clean build test build-release test uninstall
 
 reboot_devices:
