@@ -1,12 +1,16 @@
 package com.aspenshore.secretapp
 
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.ext.junit.runners.AndroidJUnit4
 
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.ActivityTestRule
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -15,10 +19,20 @@ import org.junit.Assert.*
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+    @get:Rule
+    var activityRule: ActivityTestRule<MainActivity>
+            = ActivityTestRule(MainActivity::class.java)
+
+
     @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.aspenshore.secretapp", appContext.packageName)
+    fun changeText_sameActivity() {
+        // Type text and then press the button.
+        onView(withId(R.id.editSource))
+            .perform(typeText("Something"), closeSoftKeyboard())
+
+        // Check that the text was changed.
+        onView(withId(R.id.textEncrypted))
+            .check(matches(withText("gnihtemoS")))
     }
+
 }
