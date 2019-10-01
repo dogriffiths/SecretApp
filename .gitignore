@@ -14,3 +14,5 @@
 .cxx
 features
 app/release
+gradle.properties
+keystore.pepk
