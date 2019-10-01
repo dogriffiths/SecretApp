@@ -1,6 +1,6 @@
 GRADLE = ./gradlew --no-daemon
 
-.PHONY: clean build-server build-app deploy-server test-app build-app-release test-app uninstall
+.PHONY: clean build test build-release test uninstall
 
 reboot_devices:
 	for device in $$(adb devices|grep -v List|grep device|cut -d$$'\t' -f1); do adb -s "$$device" reboot; done
