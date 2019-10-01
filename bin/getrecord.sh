@@ -22,5 +22,5 @@ export PID_REC=$(ps -ef | grep screenrecord | grep -v grep | sed 's/  / /g' | cu
 kill -9 $PID_REC || echo "Nothing to stop"
 
 rm -rf screenrecord/test*.mp4
-mkdir -p /Volumes/media/timekeeper-webtest/android-screenrecord || echo "Directory already exists"
-cp screenrecord/*.mp4 /Volumes/media/timekeeper-webtest/android-screenrecord/
+mkdir -p /Volumes/media/secretapp-webtest/android-screenrecord || echo "Directory already exists"
+cp screenrecord/*.mp4 /Volumes/media/secretapp-webtest/android-screenrecord/

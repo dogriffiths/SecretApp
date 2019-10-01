@@ -37,7 +37,7 @@ features:
 	mkdir -p features
 
 gather-features: features
-	cp ./app/src/androidTest/assets/features/* features
+	cp -f ./app/src/androidTest/assets/features/* features
 
 sonar:
 	~/tools/sonar-scanner-3.0.3.778-macosx/bin/sonar-scanner
