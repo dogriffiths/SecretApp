@@ -81,7 +81,7 @@ pipeline {
 //                cucumber 'features/*cucumber*.json'
 //                sh "make publish-tests"
 //                sh "cp -rf ../builds/\$(ls -t ../builds/|head -1)/cucumber-html-reports /Volumes/media/secretapp-webtest/||echo 'Cannot find it'"
-                slack "See webtest results at http://80.7.204.98/secretapp-results/"
+                slack "See webtest results at ready"
             }
 //            step([$class: 'CukedoctorPublisher', featuresDir: 'archive/features', format: 'HTML', hideFeaturesSection: false, hideScenarioKeyword: false, hideStepTime: false, hideSummary: false, hideTags: false, numbered: true, sectAnchors: true, title: 'Living Documentation', toc: 'RIGHT'])
         }
