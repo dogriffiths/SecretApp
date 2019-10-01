@@ -58,9 +58,9 @@ pipeline {
                         ansiColor('xterm') {
                             sh 'make build-app-release'
                             sh 'cp version.properties /Users/davidg/keystores/SecretApp/'
+                            sh 'fastlane alpha'
                         }
                         gitCommit = releaseNotes(BUILD_NUMBER)
-                        androidApkUpload apkFilesPattern: '**/app-release.aab', googleCredentialsId: 'timekeeper-publish', recentChangeList: [[language: 'en-US', text: "${gitCommit}"]], trackName: 'alpha'
                         slack "App published\n${gitCommit}"
                         sh "(git tag -d published-${BUILD_NUMBER} || echo 'No local tag to delete'); git tag -a published-${BUILD_NUMBER} -m 'Version published-${BUILD_NUMBER}'; (git push --delete origin published-${BUILD_NUMBER} || echo 'No remote tag'); git push --tags"
                     }
