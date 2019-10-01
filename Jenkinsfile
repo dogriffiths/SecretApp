@@ -3,7 +3,7 @@
 slack 'Starting build pipeline for Secret App '
 
 properties properties: [
-    disableConcurrentBuilds()
+        disableConcurrentBuilds()
 ]
 
 pipeline {
@@ -14,7 +14,7 @@ pipeline {
     }
 
     stages {
-        stage('SCM Checkout'){
+        stage('SCM Checkout') {
             steps {
                 checkout scm
             }
@@ -33,7 +33,7 @@ pipeline {
                         sh 'make build'
                     }
                     slack 'App built'
-                }                
+                }
             }
         }
 
@@ -41,7 +41,7 @@ pipeline {
             steps {
                 lock(resource: 'timek-dev') {
                     ansiColor('xterm') {
-                        sh 'make uninstall || echo Uninstall' 
+                        sh 'make uninstall || echo Uninstall'
                         sh 'make start-record'
                         sh 'make test'
                     }
@@ -71,7 +71,7 @@ pipeline {
             script {
                 sh "kill `cat /tmp/recordpid` || echo 'No need to kill old process'"
                 sh "rm -rf /Volumes/media/secretapp-webtest/*"
-		sh "rm -f features/*"
+                sh "rm -f features/*"
                 sh "make stop-record gather-features"
 //                junit 'app/build/**/TEST-*.xml'
 //                junit 'app/build/spoon/**/junit-reports/*.xml'
