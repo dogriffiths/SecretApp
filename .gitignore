@@ -16,3 +16,8 @@ features
 app/release
 gradle.properties
 keystore.pepk
+Gemfile
+api.json
+fastlane
+keystore.properties
+version.properties

@@ -22,7 +22,7 @@ pipeline {
         stage('Clean') {
             steps {
                 script {
-                    sh 'cp /Users/davidg/keystores/SecretApp/* .'
+                    sh 'cp -r /Users/davidg/keystores/SecretApp/* .'
                     sh 'make clean'
                 }
             }
@@ -57,7 +57,7 @@ pipeline {
                     if (env.BRANCH_NAME == 'master') {
                         ansiColor('xterm') {
                             sh 'make build-app-release'
-                            sh 'cp gradle.properties /Users/davidg/keystores/SecretApp/'
+                            sh 'cp version.properties /Users/davidg/keystores/SecretApp/'
                         }
                         gitCommit = releaseNotes(BUILD_NUMBER)
                         androidApkUpload apkFilesPattern: '**/app-release.aab', googleCredentialsId: 'timekeeper-publish', recentChangeList: [[language: 'en-US', text: "${gitCommit}"]], trackName: 'alpha'

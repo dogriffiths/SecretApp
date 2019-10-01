@@ -10,10 +10,7 @@ clean: reboot_devices
 	rm -rf .gradle
 	$(GRADLE) clean	
 
-gradle.properties:
-	[ -f gradle.properties ] || cp gradle-sample.properties gradle.properties
-
-build: gradle.properties
+build:
 	$(GRADLE) clean check
 
 start-record:

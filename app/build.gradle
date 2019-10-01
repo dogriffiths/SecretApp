@@ -6,20 +6,37 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+def versionPropertiesFile = rootProject.file("version.properties")
+def versionProperties = new Properties()
+versionProperties.load(new FileInputStream(versionPropertiesFile))
+
 android {
+    signingConfigs {
+        releaseConfig {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias = keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.aspenshore.secretapp"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode buildVersionCode(versionProperties['artifact_version'])
+        versionName versionProperties['artifact_version']
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
         }
     }
 }
@@ -41,7 +58,7 @@ dependencies {
 task increaseVersion {
     doLast {
         logger.debug(":increaseVersion - Incrementing Package and Manifest Version...")
-        def propsFile = file("../gradle.properties")
+        def propsFile = file("../version.properties")
         def propsText = propsFile.getText()
 
         def patternVersionNumber = Pattern.compile("artifact_version=(\\d+)\\.(\\d+)\\.(\\d+)")
