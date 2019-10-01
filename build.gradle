@@ -26,3 +26,21 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task increaseVersion {
+    doLast {
+        logger.debug(":increaseVersion - Incrementing Package and Manifest Version...")
+        def propsFile = file("../gradle.properties")
+        def propsText = propsFile.getText()
+
+        def patternVersionNumber = Pattern.compile("artifact_version=(\\d+)\\.(\\d+)\\.(\\d+)")
+        def matcherVersionNumber = patternVersionNumber.matcher(propsText)
+        matcherVersionNumber.find()
+        def majorVersion = Integer.parseInt(matcherVersionNumber.group(1))
+        def minorVersion = Integer.parseInt(matcherVersionNumber.group(2))
+        def buildVersion = Integer.parseInt(matcherVersionNumber.group(3))
+        propsText = matcherVersionNumber.replaceAll("artifact_version=" + majorVersion + "."
+                + minorVersion + "." + ++buildVersion)
+        propsFile.write(propsText)
+    }
+}
