@@ -67,7 +67,7 @@ class BasicTest {
             .perform(clearText());
 
         onView(withId(R.id.editSource))
-            .perform(typeText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), closeSoftKeyboard())
+            .perform(replaceText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), closeSoftKeyboard())
 
         onView(withId(R.id.textEncrypted))
             .check(matches(withText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")))
