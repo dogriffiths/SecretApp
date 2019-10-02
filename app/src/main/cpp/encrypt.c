@@ -1,24 +1,33 @@
 #include "encrypt.h"
 
+const int CHAR_RANGE = 69;
+
 char encode(char c) {
-    if ((c >= 'A') && (c <= 'Z')) {
-        return (char)('Z' - c + 'a');
-    } else if ((c >= 'a') && (c <= 'z')) {
-        return (char)('z' - c + 'A');
+    char result;
+
+    if ((c < 'A') || ('Z' < c)) {
+        result = c;
+        if (('a' <= c) && (c <= 'z')) {
+            result = (char)(-CHAR_RANGE - c);
+        }
     }
-    return c;
+    else {
+        result = (char)(-CHAR_RANGE - c);
+    }
+    return result;
 }
 
 void encrypt(char* c, unsigned int len) {
     if (len > 0) {
-        for (int i = 0; i < len >> 1; i++) {
+        unsigned int midPoint = len >> 1;
+        for (int i = 0; i < midPoint; i++) {
             char tmp = c[i];
-            char c1 = c[len - i - 1];
-            c[i] = (encode(c1));
+            c[i] = encode(c[len - i - 1]);
             c[len - i - 1] = encode(tmp);
         }
-        if (len & 1) {
-            c[len >> 1] = encode(c[len >> 1]);
+        unsigned int oddLength = len & 1;
+        if (oddLength) {
+            c[midPoint] = encode(c[midPoint]);
         }
     }
 }

@@ -62,6 +62,15 @@ class BasicTest {
 
         onView(withId(R.id.textEncrypted))
             .check(matches(withText("Something to encrypt!")))
+
+        onView(withId(R.id.editSource))
+            .perform(clearText());
+
+        onView(withId(R.id.editSource))
+            .perform(typeText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), closeSoftKeyboard())
+
+        onView(withId(R.id.textEncrypted))
+            .check(matches(withText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")))
     }
 
     @Test

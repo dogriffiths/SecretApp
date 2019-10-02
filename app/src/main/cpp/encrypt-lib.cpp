@@ -10,7 +10,7 @@ Java_com_aspenshore_secretapp_MainActivity_stringFromJNI(
         JNIEnv *env,
         jobject jobj,
         jstring jstr) {
-    const char *path = env->GetStringUTFChars(jstr , NULL ) ;
+    const char *path = env->GetStringUTFChars(jstr , nullptr) ;
     std::string hello = path;
     unsigned int len = hello.length();
     char c[len];
