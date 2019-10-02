@@ -1,6 +1,7 @@
 package com.aspenshore.secretapp
 
-
+import android.content.ClipboardManager
+import android.content.Context
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -8,15 +9,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 @RunWith(AndroidJUnit4::class)
 class BasicTest {
     @get:Rule
@@ -67,4 +64,15 @@ class BasicTest {
             .check(matches(withText("Something to encrypt!")))
     }
 
+    @Test
+    fun shouldBeAbleToCopyToClipboard() {
+        onView(withId(R.id.editSource))
+            .perform(typeText("Something to encrypt!"), closeSoftKeyboard())
+
+        onView(withId(R.id.btnCopy)).perform(click());
+
+        val activity = activityRule.activity
+        val clipboardManager  = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        assertEquals("!GKBIXMV LG TMRSGVNLh", clipboardManager.primaryClip.getItemAt(0).text)
+    }
 }

@@ -1,11 +1,16 @@
 package com.aspenshore.secretapp
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -31,6 +36,11 @@ class MainActivity : AppCompatActivity() {
                 textEncrypted.text = stringFromJNI(s.toString())
             }
         })
+
+        btnCopy.setOnClickListener {
+            val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            clipboardManager.primaryClip = ClipData.newPlainText("simple text", textEncrypted.text)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
