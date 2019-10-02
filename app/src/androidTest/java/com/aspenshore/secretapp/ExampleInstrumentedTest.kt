@@ -33,8 +33,23 @@ class ExampleInstrumentedTest {
 
     @Test
     fun willCorrectlyEncrypt() {
+        onView(withId(R.id.textEncrypted))
+            .check(matches(withText("")))
+
         onView(withId(R.id.editSource))
-            .perform(typeText("Something to encrypt!"), closeSoftKeyboard())
+            .perform(typeText("S"), closeSoftKeyboard())
+
+        onView(withId(R.id.textEncrypted))
+            .check(matches(withText("h")))
+
+        onView(withId(R.id.editSource))
+            .perform(typeText("o"), closeSoftKeyboard())
+
+        onView(withId(R.id.textEncrypted))
+            .check(matches(withText("Lh")))
+
+        onView(withId(R.id.editSource))
+            .perform(typeText("mething to encrypt!"), closeSoftKeyboard())
 
         onView(withId(R.id.textEncrypted))
             .check(matches(withText("!GKBIXMV LG TMRSGVNLh")))

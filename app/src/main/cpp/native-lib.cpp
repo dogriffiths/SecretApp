@@ -1,23 +1,8 @@
 #include <jni.h>
 #include <string>
 
-char encode(char c) {
-    if ((c >= 'A') && (c <= 'Z')) {
-        return 'Z' - c + 'a';
-    } else if ((c >= 'a') && (c <= 'z')) {
-        return 'z' - c + 'A';
-    }
-    return c;
-}
-
-void encrypt(char* c, unsigned int len) {
-    if (len > 0) {
-        for (int i = 0; i <= len >> 1; i++) {
-            char tmp = c[i];
-            c[i] = (encode(c[len - i - 1]));
-            c[len - i - 1] = encode(tmp);
-        }
-    }
+extern "C" {
+#include "encrypt.h"
 }
 
 extern "C" JNIEXPORT jstring JNICALL
