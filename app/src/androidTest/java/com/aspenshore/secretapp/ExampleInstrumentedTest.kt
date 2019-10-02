@@ -27,19 +27,29 @@ class ExampleInstrumentedTest {
     fun willHaveCorrectInitialText() {
         // Check that the text was changed.
         onView(withId(R.id.textEncrypted))
-            .check(matches(withText("Hello from C++")))
+            .check(matches(withText("")))
 
     }
 
     @Test
-    fun changeText_sameActivity() {
-        // Type text and then press the button.
+    fun willCorrectlyEncrypt() {
         onView(withId(R.id.editSource))
-            .perform(typeText("Something"), closeSoftKeyboard())
+            .perform(typeText("Something to encrypt!"), closeSoftKeyboard())
 
-        // Check that the text was changed.
         onView(withId(R.id.textEncrypted))
-            .check(matches(withText("gnihtemoS")))
+            .check(matches(withText("!GKBIXMV LG TMRSGVNLh")))
+
+        onView(withId(R.id.editSource))
+            .perform(clearText());
+
+        onView(withId(R.id.textEncrypted))
+            .check(matches(withText("")))
+
+        onView(withId(R.id.editSource))
+            .perform(typeText("!GKBIXMV LG TMRSGVNLh"), closeSoftKeyboard())
+
+        onView(withId(R.id.textEncrypted))
+            .check(matches(withText("Something to encrypt!")))
     }
 
 }

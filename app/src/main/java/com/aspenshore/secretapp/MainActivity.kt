@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        textEncrypted.text = stringFromJNI()
+        textEncrypted.text = stringFromJNI(editSource.text.toString())
 
         editSource.addTextChangedListener(object : TextWatcher {
 
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                textEncrypted.text = encrypt(s.toString())
+                textEncrypted.text = stringFromJNI(s.toString())
             }
         })
     }
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
-    external fun stringFromJNI(): String
+    external fun stringFromJNI(path: String): String
 
     companion object {
 
