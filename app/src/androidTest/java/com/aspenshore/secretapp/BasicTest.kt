@@ -18,7 +18,7 @@ import org.junit.runner.RunWith
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
+class BasicTest {
     @get:Rule
     var activityRule: ActivityTestRule<MainActivity>
             = ActivityTestRule(MainActivity::class.java)
