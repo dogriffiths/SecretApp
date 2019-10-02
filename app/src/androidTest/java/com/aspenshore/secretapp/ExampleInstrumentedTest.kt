@@ -23,6 +23,13 @@ class ExampleInstrumentedTest {
     var activityRule: ActivityTestRule<MainActivity>
             = ActivityTestRule(MainActivity::class.java)
 
+    @Test
+    fun willHaveCorrectInitialText() {
+        // Check that the text was changed.
+        onView(withId(R.id.textEncrypted))
+            .check(matches(withText("Hello from C++")))
+
+    }
 
     @Test
     fun changeText_sameActivity() {
