@@ -57,9 +57,9 @@ pipeline {
                     if (env.BRANCH_NAME == 'master') {
                         ansiColor('xterm') {
                             sh 'make build-app-release'
+                            sh 'fastlane alpha'
                             sh 'cp version.properties /Users/davidg/keystores/SecretApp/'
                             sh 'cp -r fastlane /Users/davidg/keystores/SecretApp/'
-                            sh 'fastlane alpha'
                         }
                         gitCommit = releaseNotes(BUILD_NUMBER)
                         slack "App published\n${gitCommit}"
