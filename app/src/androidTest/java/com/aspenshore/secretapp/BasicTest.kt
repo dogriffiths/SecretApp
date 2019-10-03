@@ -1,14 +1,11 @@
 package com.aspenshore.secretapp
 
 import android.content.ClipboardManager
-import android.content.Context
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import android.content.Context.CLIPBOARD_SERVICE
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import com.aspenshore.secretapp.screen.MainScreen
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -20,68 +17,35 @@ class BasicTest {
     var activityRule: ActivityTestRule<MainActivity>
             = ActivityTestRule(MainActivity::class.java)
 
+    val mainScreen: MainScreen = MainScreen()
+
     @Test
     fun willHaveCorrectInitialText() {
-        // Check that the text was changed.
-        onView(withId(R.id.textEncrypted))
-            .check(matches(withText("")))
-
+        mainScreen.textEncrypted.matches("")
     }
 
     @Test
     fun willCorrectlyEncrypt() {
-        onView(withId(R.id.textEncrypted))
-            .check(matches(withText("")))
-
-        onView(withId(R.id.editSource))
-            .perform(typeText("S"), closeSoftKeyboard())
-
-        onView(withId(R.id.textEncrypted))
-            .check(matches(withText("h")))
-
-        onView(withId(R.id.editSource))
-            .perform(typeText("o"), closeSoftKeyboard())
-
-        onView(withId(R.id.textEncrypted))
-            .check(matches(withText("Lh")))
-
-        onView(withId(R.id.editSource))
-            .perform(typeText("mething to encrypt!"), closeSoftKeyboard())
-
-        onView(withId(R.id.textEncrypted))
-            .check(matches(withText("!GKBIXMV LG TMRSGVNLh")))
-
-        onView(withId(R.id.editSource))
-            .perform(clearText());
-
-        onView(withId(R.id.textEncrypted))
-            .check(matches(withText("")))
-
-        onView(withId(R.id.editSource))
-            .perform(typeText("!GKBIXMV LG TMRSGVNLh"), closeSoftKeyboard())
-
-        onView(withId(R.id.textEncrypted))
-            .check(matches(withText("Something to encrypt!")))
-
-        onView(withId(R.id.editSource))
-            .perform(clearText());
-
-        onView(withId(R.id.editSource))
-            .perform(replaceText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), closeSoftKeyboard())
-
-        onView(withId(R.id.textEncrypted))
-            .check(matches(withText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")))
+        mainScreen.textEncrypted.matches("")
+        mainScreen.editSource.stringValue = "S"
+        mainScreen.textEncrypted.matches("h")
+        mainScreen.editSource.typeText("o")
+        mainScreen.textEncrypted.matches("Lh")
+        mainScreen.editSource.typeText("mething to encrypt!")
+        mainScreen.textEncrypted.matches("!GKBIXMV LG TMRSGVNLh")
+        mainScreen.editSource.clearText()
+        mainScreen.textEncrypted.matches("")
+        mainScreen.editSource.stringValue = "!GKBIXMV LG TMRSGVNLh"
+        mainScreen.textEncrypted.matches("Something to encrypt!")
+        mainScreen.editSource.get().perform(replaceText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+        mainScreen.textEncrypted.matches("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
     }
 
     @Test
     fun shouldBeAbleToCopyToClipboard() {
-        onView(withId(R.id.editSource))
-            .perform(typeText("Something to encrypt!"), closeSoftKeyboard())
-
-        onView(withId(R.id.btnCopy)).perform(click());
-
-        val activity = activityRule.activity
-        val clipboardManager  = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        mainScreen.editSource.stringValue = "Something to encrypt!"
+        mainScreen.btnCopy.click()
+        val clipboardManager  = activityRule.activity.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         assertEquals("!GKBIXMV LG TMRSGVNLh", clipboardManager.primaryClip.getItemAt(0).text)
     }
 }
