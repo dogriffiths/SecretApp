@@ -8,9 +8,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -40,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         btnCopy.setOnClickListener {
             val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             clipboardManager.primaryClip = ClipData.newPlainText("simple text", textEncrypted.text)
+            Toast.makeText(this, getString(R.string.text_save_to_clipboard), Toast.LENGTH_LONG).show()
         }
     }
 
