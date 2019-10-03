@@ -43,7 +43,7 @@ class BasicTest {
 
     @Test
     fun shouldBeAbleToCopyToClipboard() {
-        mainScreen.editSource.stringValue = "Something to encrypt!"
+        mainScreen.editSource.get().perform(replaceText("Something to encrypt!"))
         mainScreen.btnCopy.click()
         val clipboardManager  = activityRule.activity.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         assertEquals("!GKBIXMV LG TMRSGVNLh", clipboardManager.primaryClip.getItemAt(0).text)
