@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        textEncrypted.text = stringFromJNI(editSource.text.toString())
+        textEncrypted.text = encryptJNI(editSource.text.toString())
 
         editSource.addTextChangedListener(object : TextWatcher {
 
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                textEncrypted.text = stringFromJNI(s.toString())
+                textEncrypted.text = encryptJNI(s.toString())
             }
         })
 
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    external fun stringFromJNI(path: String): String
+    external fun encryptJNI(path: String): String
 
     companion object {
         init {

@@ -6,7 +6,7 @@ extern "C" {
 }
 
 extern "C" JNIEXPORT jstring JNICALL
-Java_com_aspenshore_secretapp_MainActivity_stringFromJNI(
+Java_com_aspenshore_secretapp_MainActivity_encryptJNI(
         JNIEnv *env,
         jobject jobj,
         jstring jstr) {
