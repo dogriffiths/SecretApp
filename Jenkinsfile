@@ -22,7 +22,7 @@ pipeline {
         stage('Clean') {
             steps {
                 script {
-                    if (env.BRANCH_NAME !== 'gh-pages') {
+                    if (env.BRANCH_NAME != 'gh-pages') {
                         sh 'cp -r /Users/davidg/keystores/SecretApp/* .'
                         sh 'make clean'
                     }
@@ -32,7 +32,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    if (env.BRANCH_NAME !== 'gh-pages') {
+                    if (env.BRANCH_NAME != 'gh-pages') {
                         ansiColor('xterm') {
                             sh 'make build'
                         }
@@ -46,7 +46,7 @@ pipeline {
             steps {
                 lock(resource: 'timek-dev') {
                     script {
-                        if (env.BRANCH_NAME !== 'gh-pages') {
+                        if (env.BRANCH_NAME != 'gh-pages') {
                             ansiColor('xterm') {
                                 sh 'make uninstall || echo Uninstall'
                                 sh 'make start-record'
