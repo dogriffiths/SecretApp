@@ -45,13 +45,15 @@ pipeline {
         stage('Test') {
             steps {
                 lock(resource: 'timek-dev') {
-                    if (env.BRANCH_NAME !== 'gh-pages') {
-                        ansiColor('xterm') {
-                            sh 'make uninstall || echo Uninstall'
-                            sh 'make start-record'
-                            sh 'make test'
+                    script {
+                        if (env.BRANCH_NAME !== 'gh-pages') {
+                            ansiColor('xterm') {
+                                sh 'make uninstall || echo Uninstall'
+                                sh 'make start-record'
+                                sh 'make test'
+                            }
+                            slack 'App tested'
                         }
-                        slack 'App tested'
                     }
                 }
             }
