@@ -1,12 +1,5 @@
+# Download the latest version
 
-# Table of Contents
+A built version of the Secret App is available in APK format on Github:
 
-1.  [Org file header](#org44bd923)
-
-
-<a id="org44bd923"></a>
-
-# Org file header
-
-Hello
-
+https://github.com/dogriffiths/SecretApp/tree/master/latest

@@ -29,7 +29,7 @@ stop-record:
 	(bin/getrecord.sh || echo "Unable to get recording") 2>&1
 
 build-app-release:
-	$(GRADLE) increaseVersion assembleRelease bundleRelease && cp app/build/outputs/apk/release/app-release.apk latest
+	$(GRADLE) increaseVersion assembleRelease bundleRelease
 
 features:
 	mkdir -p features
