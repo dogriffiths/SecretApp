@@ -13,24 +13,26 @@ pipeline {
         githubPush()
     }
 
-    if (env.BRANCH_NAME == 'master') {
-        stages {
-            stage('SCM Checkout') {
-                steps {
-                    checkout scm
-                }
+    stages {
+        stage('SCM Checkout') {
+            steps {
+                checkout scm
             }
-            stage('Clean') {
-                steps {
-                    script {
+        }
+        stage('Clean') {
+            steps {
+                script {
+                    if (env.BRANCH_NAME !== 'gh-pages') {
                         sh 'cp -r /Users/davidg/keystores/SecretApp/* .'
                         sh 'make clean'
                     }
                 }
             }
-            stage('Build') {
-                steps {
-                    script {
+        }
+        stage('Build') {
+            steps {
+                script {
+                    if (env.BRANCH_NAME !== 'gh-pages') {
                         ansiColor('xterm') {
                             sh 'make build'
                         }
@@ -38,55 +40,59 @@ pipeline {
                     }
                 }
             }
+        }
 
-            stage('Test') {
-                steps {
-                    lock(resource: 'timek-dev') {
-                        ansiColor('xterm') {
-                            sh 'make uninstall || echo Uninstall'
-                            sh 'make start-record'
-                            sh 'make test'
-                        }
-                        slack 'App tested'
-                    }
-                }
-            }
-
-            stage('Publish App') {
-                steps {
+        stage('Test') {
+            steps {
+                lock(resource: 'timek-dev') {
                     script {
-                        if (env.BRANCH_NAME == 'master') {
+                        if (env.BRANCH_NAME !== 'gh-pages') {
                             ansiColor('xterm') {
-                                sh 'make build-app-release'
-                                sh 'fastlane alpha'
-                                sh 'cp version.properties /Users/davidg/keystores/SecretApp/'
-                                sh 'cp -r fastlane /Users/davidg/keystores/SecretApp/'
+                                sh 'make uninstall || echo Uninstall'
+                                sh 'make start-record'
+                                sh 'make test'
                             }
-                            gitCommit = releaseNotes(BUILD_NUMBER)
-                            slack "App published\n${gitCommit}"
-                            sh "(git tag -d published-${BUILD_NUMBER} || echo 'No local tag to delete'); git tag -a published-${BUILD_NUMBER} -m 'Version published-${BUILD_NUMBER}'; (git push --delete origin published-${BUILD_NUMBER} || echo 'No remote tag'); git push --tags; git checkout gh-pages; cp app/build/outputs/apk/release/app-release.apk latest; git commit -am 'chore: Upload latest release ${BUILD_NUMBER}'; git pull --rebase; git push"
+                            slack 'App tested'
                         }
                     }
                 }
             }
         }
-        post {
-            always {
+
+        stage('Publish App') {
+            steps {
                 script {
-                    sh "kill `cat /tmp/recordpid` || echo 'No need to kill old process'"
-                    sh "rm -rf /Volumes/media/secretapp-webtest/*"
-                    sh "make stop-record"
-                    junit 'app/build/**/TEST-*.xml'
-                    junit 'app/build/spoon/**/junit-reports/*.xml'
-                    archiveArtifacts allowEmptyArchive: true, artifacts: 'app/build/spoon/debug/**'
-                    archiveArtifacts allowEmptyArchive: true, artifacts: 'app/build/reports/**'
-                    sh "make publish-tests"
-                    slack "Test results are ready"
+                    if (env.BRANCH_NAME == 'master') {
+                        ansiColor('xterm') {
+                            sh 'make build-app-release'
+                            sh 'fastlane alpha'
+                            sh 'cp version.properties /Users/davidg/keystores/SecretApp/'
+                            sh 'cp -r fastlane /Users/davidg/keystores/SecretApp/'
+                        }
+                        gitCommit = releaseNotes(BUILD_NUMBER)
+                        slack "App published\n${gitCommit}"
+                        sh "(git tag -d published-${BUILD_NUMBER} || echo 'No local tag to delete'); git tag -a published-${BUILD_NUMBER} -m 'Version published-${BUILD_NUMBER}'; (git push --delete origin published-${BUILD_NUMBER} || echo 'No remote tag'); git push --tags; git checkout gh-pages; cp app/build/outputs/apk/release/app-release.apk latest; git commit -am 'chore: Upload latest release ${BUILD_NUMBER}'; git pull --rebase; git push"
+                    }
                 }
             }
-            failure {
-                slack "Build failed: ${currentBuild.result}", '#ff0000'
+        }
+    }
+    post {
+        always {
+            script {
+                sh "kill `cat /tmp/recordpid` || echo 'No need to kill old process'"
+                sh "rm -rf /Volumes/media/secretapp-webtest/*"
+                sh "make stop-record"
+                junit 'app/build/**/TEST-*.xml'
+                junit 'app/build/spoon/**/junit-reports/*.xml'
+                archiveArtifacts allowEmptyArchive: true, artifacts: 'app/build/spoon/debug/**'
+                archiveArtifacts allowEmptyArchive: true, artifacts: 'app/build/reports/**'
+                sh "make publish-tests"
+                slack "Test results are ready"
             }
+        }
+        failure {
+            slack "Build failed: ${currentBuild.result}", '#ff0000'
         }
     }
 }
