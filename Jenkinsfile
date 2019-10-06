@@ -63,7 +63,7 @@ pipeline {
                         }
                         gitCommit = releaseNotes(BUILD_NUMBER)
                         slack "App published\n${gitCommit}"
-                        sh "(git tag -d published-${BUILD_NUMBER} || echo 'No local tag to delete'); git tag -a published-${BUILD_NUMBER} -m 'Version published-${BUILD_NUMBER}'; (git push --delete origin published-${BUILD_NUMBER} || echo 'No remote tag'); git push --tags; git checkout master; cp app/build/outputs/apk/release/app-release.apk latest; git commit -am 'chore: Upload latest release ${BUILD_NUMBER}'; git pull --rebase; git push"
+                        sh "(git tag -d published-${BUILD_NUMBER} || echo 'No local tag to delete'); git tag -a published-${BUILD_NUMBER} -m 'Version published-${BUILD_NUMBER}'; (git push --delete origin published-${BUILD_NUMBER} || echo 'No remote tag'); git push --tags; git checkout gh-pages; cp app/build/outputs/apk/release/app-release.apk latest; git commit -am 'chore: Upload latest release ${BUILD_NUMBER}'; git pull --rebase; git push"
                     }
                 }
             }
