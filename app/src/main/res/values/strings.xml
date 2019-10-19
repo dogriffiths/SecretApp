@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">SecretApp</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Secret App</string>
     <string name="encrypted_text">Encrypted text</string>
     <string name="enter_text_to_encrypt">Enter text to encrypt:</string>
     <string name="text_save_to_clipboard">Text saved to clipboard</string>
