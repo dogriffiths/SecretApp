@@ -66,6 +66,8 @@ dependencies {
         exclude module: 'java-hamcrest'
         exclude module: 'hamcrest-core'
     }
+    implementation 'androidx.room:room-runtime:2.2.0'
+    annotationProcessor 'androidx.room:room-compiler:2.2.0'
 }
 
 task increaseVersion {

@@ -10,10 +10,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room.databaseBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    var database: AppDatabase? = null
+
+    val db: AppDatabase? get() = database
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +31,16 @@ class MainActivity : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable) {}
 
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
                 textEncrypted.text = encryptJNI(s.toString())
             }
         })
@@ -39,8 +48,12 @@ class MainActivity : AppCompatActivity() {
         btnCopy.setOnClickListener {
             val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             clipboardManager.primaryClip = ClipData.newPlainText("simple text", textEncrypted.text)
-            Toast.makeText(this, getString(R.string.text_save_to_clipboard), Toast.LENGTH_LONG).show()
+            InsertTask(this).execute(editSource.text.toString());
+            Toast.makeText(this, getString(R.string.text_save_to_clipboard), Toast.LENGTH_LONG)
+                .show()
         }
+
+        database = databaseBuilder(this, AppDatabase::class.java, "message").build()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
