@@ -8,6 +8,8 @@ A built version of the Secret App is available in APK format on Github:
 
 [Download here](https://github.com/dogriffiths/SecretApp/releases/tag/published-40)
 
+<img src='images/phone_portrait.png'/>
+
 # Source code
 
 The source code for this app is available on [Github](https://github.com/dogriffiths/SecretApp)
