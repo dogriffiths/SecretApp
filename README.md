@@ -6,7 +6,7 @@ You can download the app from the [Google Play Store](https://play.google.com/st
 
 A built version of the Secret App is available in APK format on Github:
 
-[Download here](https://github.com/dogriffiths/SecretApp/releases/tag/published-40)
+[Download here](https://github.com/dogriffiths/SecretApp/releases)
 
 <img src='images/phone_portrait.png'/>
 
