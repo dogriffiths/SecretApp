@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class androidx.** { *; }
+-keep interface androidx.** { *; }
+-keepclassmembers class * {
+    createIconFadeAnimation(android.view.View,android.view.View,boolean,boolean,com.google.android.material.transformation.FabTransformationBehavior$FabTransformationSpec,java.util.List,java.util.List);
+    void createChildrenFadeAnimation(android.view.View,android.view.View,boolean,boolean,com.google.android.material.transformation.FabTransformationBehavior$FabTransformationSpec,java.util.List,java.util.List);
+}

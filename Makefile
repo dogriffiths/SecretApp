@@ -25,6 +25,12 @@ test: assembleAndroidTest assembleDebug
 		--apk app/build/outputs/apk/debug/app-debug.apk \
 		--test-apk app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
+test-release: assembleAndroidTest assembleRelease
+	java -jar spoon-runner-1.7.1-jar-with-dependencies.jar \
+		--fail-on-failure --output app/build/spoon/release\
+		--apk app/build/outputs/apk/release/app-release.apk \
+		--test-apk app/build/outputs/apk/androidTest/release/app-release-androidTest.apk
+
 stop-record:
 	(bin/getrecord.sh || echo "Unable to get recording") 2>&1
 
